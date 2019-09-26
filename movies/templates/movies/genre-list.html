@@ -1,0 +1,5 @@
+{% for genre in genres %}
+<li>
+    <a href="{% url 'movies:movies_by_genre' genre.slug %}">{{ genre.name }}</a>
+</li>
+{% endfor %}

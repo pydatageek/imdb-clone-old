@@ -21,6 +21,15 @@ class MovieDetail(DetailView):
         ordering = ('-year',)
 
 
+class GenreList(ListView):
+    # TODO
+    # This is for the sidebar
+    # For now genres are not shown
+    model = models.Genre
+    template_name = 'partial-sidebar.html'
+    context_object_name = 'genres'
+
+
 class GenreIndexView(ListView):
     model = models.Genre
     template_name = 'movies/index-genre.html'
