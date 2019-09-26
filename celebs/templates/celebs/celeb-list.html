@@ -1,0 +1,40 @@
+{% for celeb in celebs %}
+<div class="card mb-4">
+    <div class="row no-gutters">    
+        <div class="col-md-4 card-img-top">
+            <a href="{% url 'celebs:celeb_detail' celeb.id celeb.slug %}"><img class="card-img-left" width="100%" src="http://placehold.it/250x400" alt=""></a>
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h4 class="card-title">
+                    <a href="{% url 'celebs:celeb_detail' celeb.id celeb.slug %}">{{ celeb.full_name }}</a>
+                    <small>{{ celeb.nick }}</small>
+                </h4>
+                <p class="small">
+                    <span class="text-muted">
+                        {% if celeb.birthdate %}
+                        {{ celeb.age }} years old
+                        {% endif %}
+                    </span> 
+                </p>
+                <p class="card-text small">{{ celeb.summary_short }}</p>  
+                <p class="small"><strong>Movies:</strong> 
+                    {% for i in celeb.moviecast.all %}
+                        <a href="{% url 'movies:movie_detail' i.movie.id i.movie.slug %}">{{ i.movie.title }}</a>,  
+                    {% endfor %}            
+                </p>                    
+                <p>
+                    <div class=row>
+                        <div class=col-md-4>
+                            <a href="{{ celeb.trailer }}" target="_blank" class="btn btn-outline-primary btn-sm">Watch Trailer</a>
+                        </div>                     
+                    </div>
+                </p> 
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+            </div>              
+        </div>
+    </div>  
+</div>
+{% endfor %}

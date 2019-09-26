@@ -1,0 +1,47 @@
+{% for movie in movies %}
+<div class="card mb-4">
+    <div class="row no-gutters">    
+        <div class="col-md-4 card-img-top">
+            <a href="{% url 'movies:movie_detail' movie.id movie.slug %}"><img class="card-img-left" width="100%" src="http://placehold.it/250x400" alt=""></a>
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h4 class="card-title">
+                    <a href="{% url 'movies:movie_detail' movie.id movie.slug %}">{{ movie.title }}</a>
+                    <small>({{ movie.year }})</small>
+                </h4>
+                <p class="small">
+                    <span class="text-muted">{{ movie.duration }} min</span> 
+                    {% for genre in movie.genres.all %}
+                        | <a href="{% url 'movies:movies_by_genre' genre.slug %}">{{ genre.name }}</a>
+                    {% endfor %}
+                </p>
+                <p class="card-text small">{{ movie.summary_short }}</p>
+                <p class="small"><strong>Directors:</strong> 
+                    {% for director in movie.directors.all %}
+                        <a href="{% url 'celebs:celeb_detail' director.id director.slug %}">{{ director.full_name }}</a>, 
+                    {% endfor %}            
+                </p>
+                <p class="small"><strong>Stars:</strong> 
+                    {% for cast in movie.casts.all %}
+                        <a href="{% url 'celebs:celeb_detail' cast.id cast.slug %}">{{ cast.full_name }}</a>,  
+                    {% endfor %}            
+                </p>       
+                <p>
+                    <div class=row>
+                        <div class=col-md-4>
+                            <a href="{{ movie.trailer }}" target="_blank" class="btn btn-outline-primary btn-sm">Watch Trailer</a>
+                        </div>
+                        <div class=col-md-4>
+                            <span class="btn btn-outline-success btn-sm">IMDB {{ movie.imdbmovierating.rating }}</a>
+                        </div>                        
+                    </div>
+                </p> 
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+            </div>              
+        </div>
+    </div>  
+</div>
+{% endfor %}

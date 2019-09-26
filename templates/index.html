@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Blog Post -->
+<h2 class="my-4">Latest Movies</h2>
+<a href="{% url 'movies:home' %}">All Movies</a> | 
+<a href="{% url 'movies:top_movies' %}">Top Movies</a>
+{% include 'movies/movie-list.html' %}
+<a href="{% url 'movies:home' %}">All Movies</a> | 
+<a href="{% url 'movies:top_movies' %}">Top Movies</a>
+
+<p></p>
+<h2 class="my-4">Celebrities</h2>
+<a href="{% url 'celebs:home' %}">All Celebrities</a> 
+{% include 'celebs/celeb-list.html' %}
+<a href="{% url 'celebs:home' %}">All Celebrities</a> 
+{% endblock %}
