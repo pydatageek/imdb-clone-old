@@ -85,6 +85,7 @@
 
     <hr>
     <!-- Comments Form -->
+    {% if user.is_authenticated %}
     <div class="card my-4">
         <h5 class="card-header">Leave a Comment:</h5>
         <div class="card-body">
@@ -99,6 +100,14 @@
         </form>
         </div>
     </div>
+    {% else %}
+    <div class="card my-4">
+        <h5 class="card-header">Leave a Comment:</h5>
+        <div class="card-body">
+            You need to be logged in to comment.
+        </div>
+    </div>
+    {% endif %}
     
     {% for comment in movie.comments.all %}
     <!-- Single Comment -->

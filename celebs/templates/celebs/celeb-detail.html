@@ -101,6 +101,8 @@
 
     <hr>
     <!-- Comments Form -->
+    <!-- Comments Form -->
+    {% if user.is_authenticated %}
     <div class="card my-4">
         <h5 class="card-header">Leave a Comment:</h5>
         <div class="card-body">
@@ -108,13 +110,21 @@
             {% csrf_token %}
             <div class="form-group">
                 {{ comment_form|crispy }}
-            <input type="hidden" name="celeb" value="{{ celeb.id }}">
+            <input type="hidden" name="movie" value="{{ movie.id }}">
             <input type="hidden" name="user" value="{{ user.id }}">
             <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </form>
         </div>
     </div>
+    {% else %}
+    <div class="card my-4">
+        <h5 class="card-header">Leave a Comment:</h5>
+        <div class="card-body">
+            You need to be logged in to comment.
+        </div>
+    </div>
+    {% endif %}
     
     {% for comment in celeb.comments.all %}
     <!-- Single Comment -->
