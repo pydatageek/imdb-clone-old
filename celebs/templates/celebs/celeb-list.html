@@ -19,14 +19,33 @@
                 </p>
                 <p class="card-text small">{{ celeb.summary_short }}</p>  
                 <p class="small"><strong>Movies:</strong> 
-                    {% for i in celeb.moviecast.all %}
-                        <a href="{% url 'movies:movie_detail' i.movie.id i.movie.slug %}">{{ i.movie.title }}</a>,  
-                    {% endfor %}            
+                    <br>
+                    {% if celeb.moviecast %} 
+                        <i>(as cast)</i>
+                        {% for i in celeb.moviecast.all %}
+                            <a href="{% url 'movies:movie_detail' i.movie.id i.movie.slug %}">{{ i.movie.title }}</a>,  
+                        {% endfor %} 
+                        <br>          
+                    {% endif %}  
+                    {% if celeb.directors %} 
+                        <i>(as director)</i>
+                        {% for i in celeb.directors.all %}
+                            <a href="{% url 'movies:movie_detail' i.id i.slug %}">{{ i.title }}</a>,  
+                        {% endfor %} 
+                        <br>          
+                    {% endif %} 
+                    {% if celeb.writers %} 
+                        <i>(as writer)</i>
+                        {% for i in celeb.writers.all %}
+                            <a href="{% url 'movies:movie_detail' i.id i.slug %}">{{ i.title }}</a>,  
+                        {% endfor %} 
+                        <br>          
+                    {% endif %}                     
                 </p>                    
                 <p>
                     <div class=row>
                         <div class=col-md-4>
-                            <a href="{{ celeb.trailer }}" target="_blank" class="btn btn-outline-primary btn-sm">Watch Trailer</a>
+                            <a href="{{ celeb.trailer }}" target="_blank" class="btn btn-outline-primary btn-sm {% if not celeb.trailer %} disabled {% endif %}">Watch Trailer</a>
                         </div>                     
                     </div>
                 </p> 

@@ -16,4 +16,4 @@ class IndexView(ListView):
         return context
 
     def get_queryset(self):
-        return movie_models.Movie.objects.order_by('-year', 'title')[:3]
+        return movie_models.Movie.objects.order_by('-release_year', 'title')[:3]

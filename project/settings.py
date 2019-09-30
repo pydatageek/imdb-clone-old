@@ -38,6 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'debug_toolbar',  # debug_toolbar for debug=True
+    # 'pillow',
+    'crispy_forms',
+
     'users',
     'movies',
     'celebs',
@@ -52,6 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'debug_toolbar.middleware.DebugToolbarMiddleware',  # debug_toolbar for debug=True
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -131,3 +137,10 @@ STATICFILES_DIRS = [
 ]
 
 AUTH_USER_MODEL = 'users.User'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# debug_toolbar for debug=True
+INTERNAL_IPS = [
+    '127.0.0.1',
+]

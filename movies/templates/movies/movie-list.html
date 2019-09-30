@@ -8,7 +8,7 @@
             <div class="card-body">
                 <h4 class="card-title">
                     <a href="{% url 'movies:movie_detail' movie.id movie.slug %}">{{ movie.title }}</a>
-                    <small>({{ movie.year }})</small>
+                    <small>({{ movie.release_year }})</small>
                 </h4>
                 <p class="small">
                     <span class="text-muted">{{ movie.duration }} min</span> 
@@ -30,7 +30,7 @@
                 <p>
                     <div class=row>
                         <div class=col-md-4>
-                            <a href="{{ movie.trailer }}" target="_blank" class="btn btn-outline-primary btn-sm">Watch Trailer</a>
+                            <a href="{{ movie.trailer }}" target="_blank" class="btn btn-outline-primary btn-sm {% if not movie.trailer %} disabled {% endif %}"">Watch Trailer</a>
                         </div>
                         <div class=col-md-4>
                             <span class="btn btn-outline-success btn-sm">IMDB {{ movie.imdbmovierating.rating }}</a>

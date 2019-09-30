@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 <!-- Title -->
 {% block htitle %}{{ celeb.full_name }} <small>{{ celeb.nick }}</small>{% endblock %}
@@ -45,14 +46,43 @@
 
     <div id="cast" class="col-lg-12 small mt-5">
         <h4>Filmography</h4>
-        <div class="row">
-            {% for movie in movies %}
-            <div class="col-lg-5">
-                <a href="{% url 'movies:movie_detail' movie.pk movie.slug %}">{{ movie.title }}</a></div>
-            <div class="col-lg-2">{{ movie.year }}</div>
-            <div class="col-lg-5">{{ n.name }}</div> <!-- I need to add cast's screen name on movie --->
-            {% endfor %}
+        <h5>As cast</h5>
+        <div class="row mb-3">
+            {% if movies_as_cast %}
+                {% for movie in movies_as_cast %}
+                <div class="col-lg-5">
+                    <a href="{% url 'movies:movie_detail' movie.pk movie.slug %}">{{ movie.title }}</a></div>
+                <div class="col-lg-2">{{ movie.release_year }}</div>
+                <div class="col-lg-5">{{ n.name }}</div> <!-- I need to add cast's screen name on movie --->
+                {% endfor %}
+            {% else %}
+                <div class="col-lg-12">There are no records..</div>
+            {% endif %}
         </div>
+        <h5>As director</h5>
+        <div class="row mb-3">
+            {% if movies_as_director %}
+                {% for movie in movies_as_director %}
+                <div class="col-lg-5">
+                    <a href="{% url 'movies:movie_detail' movie.pk movie.slug %}">{{ movie.title }}</a></div>
+                <div class="col-lg-7">{{ movie.release_year }}</div>
+                {% endfor %}
+            {% else %}
+                <div class="col-lg-12">There are no records..</div>
+            {% endif %}
+        </div> 
+        <h5>As writer</h5>
+        <div class="row mb-3">
+            {% if movies_as_writer %}
+                {% for movie in movies_as_writer %}
+                <div class="col-lg-5">
+                    <a href="{% url 'movies:movie_detail' movie.pk movie.slug %}">{{ movie.title }}</a></div>
+                <div class="col-lg-7">{{ movie.release_year }}</div>
+                {% endfor %}
+            {% else %}
+                <div class="col-lg-12">There are no records..</div>
+            {% endif %}
+        </div>       
     </div>
 
     <div class="card my-4">
@@ -74,48 +104,31 @@
     <div class="card my-4">
         <h5 class="card-header">Leave a Comment:</h5>
         <div class="card-body">
-        <form>
+        <form method="POST" action="">
+            {% csrf_token %}
             <div class="form-group">
-            <textarea class="form-control" rows="3"></textarea>
-            </div>
+                {{ comment_form|crispy }}
+            <input type="hidden" name="celeb" value="{{ celeb.id }}">
+            <input type="hidden" name="user" value="{{ user.id }}">
             <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
         </form>
         </div>
     </div>
-
+    
+    {% for comment in celeb.comments.all %}
     <!-- Single Comment -->
     <div class="media mb-4">
         <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
         <div class="media-body">
-        <h5 class="mt-0">Commenter Name</h5>
-        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+        <h5 class="mt-0">{{ comment.user }}</h5>
+        {{ comment.text|linebreaks }}
         </div>
     </div>
-
-    <!-- Comment with nested comments -->
+    {% empty %}
     <div class="media mb-4">
-        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-        <div class="media-body">
-        <h5 class="mt-0">Commenter Name</h5>
-        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-
-        <div class="media mt-4">
-            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-            <div class="media-body">
-            <h5 class="mt-0">Commenter Name</h5>
-            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-            </div>
-        </div>
-
-        <div class="media mt-4">
-            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-            <div class="media-body">
-            <h5 class="mt-0">Commenter Name</h5>
-            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-            </div>
-        </div>
-
-        </div>
-    </div>
+        <div class="media-body">No comments yet! You may add one.</div>
+    </div>    
+    {% endfor %}
 </div>
 {% endblock %}

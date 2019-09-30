@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 <!-- Title -->
-{% block htitle %}{{ movie.title }} <small>({{ movie.year }})</small>{% endblock %}
-{% block title %}{{ movie.title }} <small>({{ movie.year }})</small>{% endblock %}   
+{% block htitle %}{{ movie.title }} <small>({{ movie.release_year }})</small>{% endblock %}
+{% block title %}{{ movie.title }} <small>({{ movie.release_year }})</small>{% endblock %}   
 
 {% block content %}
 <!-- Post Content Column -->
@@ -87,48 +88,31 @@
     <div class="card my-4">
         <h5 class="card-header">Leave a Comment:</h5>
         <div class="card-body">
-        <form>
+        <form method="POST" action="">
+            {% csrf_token %}
             <div class="form-group">
-            <textarea class="form-control" rows="3"></textarea>
-            </div>
+                {{ comment_form|crispy }}
+            <input type="hidden" name="movie" value="{{ movie.id }}">
+            <input type="hidden" name="user" value="{{ user.id }}">
             <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
         </form>
         </div>
     </div>
-
+    
+    {% for comment in movie.comments.all %}
     <!-- Single Comment -->
     <div class="media mb-4">
         <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
         <div class="media-body">
-        <h5 class="mt-0">Commenter Name</h5>
-        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+        <h5 class="mt-0">{{ comment.user }}</h5>
+        {{ comment.text|linebreaks }}
         </div>
     </div>
-
-    <!-- Comment with nested comments -->
+    {% empty %}
     <div class="media mb-4">
-        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-        <div class="media-body">
-        <h5 class="mt-0">Commenter Name</h5>
-        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-
-        <div class="media mt-4">
-            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-            <div class="media-body">
-            <h5 class="mt-0">Commenter Name</h5>
-            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-            </div>
-        </div>
-
-        <div class="media mt-4">
-            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-            <div class="media-body">
-            <h5 class="mt-0">Commenter Name</h5>
-            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-            </div>
-        </div>
-
-        </div>
-    </div>
+        <div class="media-body">No comments yet! You may add one.</div>
+    </div>    
+    {% endfor %}
 </div>
 {% endblock %}

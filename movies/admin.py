@@ -26,4 +26,4 @@ class MovieAdmin(admin.ModelAdmin):
     form = forms.MovieForm
     inlines = [MovieIbdbRatingInline, MovieCastInline,]
     
-    prepopulated_fields = { 'slug': ('title', 'year') }
+    prepopulated_fields = { 'slug': ('title', 'release_year') }

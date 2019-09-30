@@ -14,6 +14,8 @@ class Duty(models.Model):
 
 
 class Celebrity(models.Model):
+    date_added = models.DateTimeField('Added Date', auto_now_add=True)
+
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     slug = models.SlugField(max_length=100)

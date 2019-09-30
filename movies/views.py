@@ -1,24 +1,37 @@
 from django.db.models import Count, F
-from django.shortcuts import render, get_object_or_404, get_list_or_404
-from django.views.generic import TemplateView, ListView, DetailView
+from django.shortcuts import render, redirect, reverse, get_object_or_404, get_list_or_404
+from django.views.generic import TemplateView, ListView, DetailView, CreateView
 
-from . import models
-
+from reviews import models as review_models
+from . import models, forms
+ 
+"""
+TODO
+1. limit the listed cast number to 5 in movie-list pages
+2. count the number of movies by genre
+ 
+"""
 
 class IndexView(ListView):
     model = models.Movie
     template_name = 'movies/index.html'
     context_object_name = 'movies'
-    ordering = ('-year', 'title')
+    ordering = ('-release_year', 'title')
 
 
-class MovieDetail(DetailView):
+class MovieDetail(DetailView, CreateView):
     model = models.Movie
+    form_class = forms.CommentForm
     template_name = 'movies/movie-detail.html'
     context_object_name = 'movie'
 
-    class Meta:
-        ordering = ('-year',)
+    def get_context_data(self, *args, **kwargs):
+        context = super(MovieDetail, self).get_context_data(**kwargs)
+        context['comment_form'] = self.form_class
+        return context
+
+    def get_success_url(self):
+        return reverse('movies:movie_detail', kwargs={'pk':self.object.movie.pk, 'slug':self.object.movie.slug})
 
 
 class GenreList(ListView):
@@ -48,10 +61,9 @@ class GenreMovieList(ListView):
     context_object_name = 'movies'
     
     # TODO
-    # I don't know get_queryset and get_context_data
-    # well
+    # I don't know get_queryset and get_context_data well
     def get_queryset(self):
-        return models.Movie.objects.filter(genres__slug__icontains=self.kwargs['slug']).order_by('-year')
+        return models.Movie.objects.filter(genres__slug__icontains=self.kwargs['slug']).order_by('-release_year')
 
     def get_context_data(self, **kwargs):
         context = super(GenreMovieList, self).get_context_data(**kwargs)
