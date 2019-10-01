@@ -2,16 +2,25 @@
 
 {% block content %}
 <!-- Blog Post -->
-<h2 class="my-4">Latest Movies</h2>
-<a href="{% url 'movies:home' %}">All Movies</a> | 
-<a href="{% url 'movies:top_movies' %}">Top Movies</a>
-{% include 'movies/movie-list.html' %}
-<a href="{% url 'movies:home' %}">All Movies</a> | 
-<a href="{% url 'movies:top_movies' %}">Top Movies</a>
+<div class="card card-signin">
+    <h2 class="card-title text-center my-4">Latest Movies <small>by release date</small></h2>
+    <div class="card-body">
+        <div class="row m-2">        
+            <a href="{% url 'movies:home' %}" class="btn btn-outline-info btn-sm mr-3">All Movies</a>  
+            <a href="{% url 'movies:top_movies' %}" class="btn btn-outline-info btn-sm mr-3">Top Movies</a>
+            <a href="{% url 'movies:genre_home' %}" class="btn btn-outline-info btn-sm mr-3">Movies by Genres</a>
+        </div>    
+        {% include 'movies/movie-list.html' %}
+    </div>
+</div>
 
-<p></p>
-<h2 class="my-4">Celebrities</h2>
-<a href="{% url 'celebs:home' %}">All Celebrities</a> 
-{% include 'celebs/celeb-list.html' %}
-<a href="{% url 'celebs:home' %}">All Celebrities</a> 
+<div class="card card-signin">
+    <h2 class="card-title text-center my-4">Celebrities</h2>
+        <div class="card-body">
+            <div class="row m-2">        
+                <a href="{% url 'celebs:home' %}" class="btn btn-outline-info btn-sm mr-3">All Celebrities</a> 
+            </div>       
+            {% include 'celebs/celeb-list.html' %}
+        </div>
+</div>
 {% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block htitle %}Movies By Genres{% endblock %}
+{% block title %}Movies By Genres{% endblock %}
+
+{% block content %}
+<!-- Blog Post -->
+<div class="card mb-4">
+    <div class="row no-gutters">    
+        <div class="col-md-12">
+            <div class="card-body">
+            {% for genre in object_list %}
+                <h6 class="card-title">
+                <a href="{% url 'movies:movies_by_genre' genre.slug %}">{{ genre.name }}</a>
+                <small>({{ genre.movies.count }} movies)</small>
+                </h6>
+            {% endfor %}                                  
+            </div>      
+        </div>
+    </div>  
+</div>
+<div class="card card-signin mb-4">
+    <div class="card-body">    
+        {% for genre in object_list %}
+            <h6 class="card-title">
+            <a href="{% url 'movies:movies_by_genre' genre.slug %}">{{ genre.name }}</a>
+            <small>({{ genre.movies.count }} movies)</small>
+            </h6>
+        {% endfor %}  
+    </div>
+</div>
+{% endblock %}

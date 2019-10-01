@@ -34,7 +34,7 @@ class TopMovieList(MovieListMixin):
     def get_context_data(self, **kwargs):
         context = super(TopMovieList, self).get_context_data(**kwargs)
         context['title'] = 'Top movies'
-        context['title_suffix'] = ''
+        context['title_suffix'] = 'on IMDB'
         return context
 
 

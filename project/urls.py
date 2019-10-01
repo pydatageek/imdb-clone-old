@@ -20,10 +20,11 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('', views.IndexView.as_view(), name='index'),
     path('admin/', admin.site.urls),
-    path('movie/', include('movies.urls')),
-    path('celeb/', include('celebs.urls')),
+    path('', views.IndexView.as_view(), name='index'),
+    path('users/', include('users.urls')),
+    path('movies/', include('movies.urls')),
+    path('celebs/', include('celebs.urls')),
 ]
 
 if settings.DEBUG:

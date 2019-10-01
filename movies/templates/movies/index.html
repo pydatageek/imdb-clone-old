@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 
-{% block htitle %}{{ title }} <small>{{ title_suffix }}</small>{% endblock %}
+{% block htitle %}{{ title }} {{ title_suffix }}{% endblock %}
 {% block title %}{{ title }} <small>{{ title_suffix }}</small>{% endblock %}
 
 {% block content %}
-{% include 'movies/movie-list.html' %}
+<div class="card card-signin">
+    <div class="card-body">    
+        {% include 'movies/movie-list.html' %}
+    </div>
+</div>
 {% endblock %}

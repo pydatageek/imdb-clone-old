@@ -5,15 +5,16 @@ from movies import models as movie_models
 
 
 class IndexView(ListView):
-    model = movie_models.Movie
     template_name = 'index.html'
-    context_object_name = 'movies'
-    # ordering = ('-year', 'title')
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        context['celebs'] = celeb_models.Celebrity.objects.all()[:3]
+        context['celebs'] = celeb_models.Celebrity.objects.prefetch_related(
+            'moviecast__movie', 'directors', 'writers', 'comments'
+        )[:3]
         return context
 
     def get_queryset(self):
-        return movie_models.Movie.objects.order_by('-release_year', 'title')[:3]
+        return movie_models.Movie.objects.prefetch_related(
+            'writers', 'casts', 'moviecast__cast', 'directors', 'genres', 'imdbmovierating', 'comments').order_by(
+            '-release_year', 'title')[:3]

@@ -1,8 +1,10 @@
 {% for movie in object_list %}
 <div class="card mb-4">
     <div class="row no-gutters">    
-        <div class="col-md-4 card-img-top">
-            <a href="{% url 'movies:movie_detail' movie.id movie.slug %}"><img class="card-img-left" width="100%" src="http://placehold.it/250x400" alt=""></a>
+        <div class="col-md-4">
+            <div class="card-img-top">
+                <a href="{% url 'movies:movie_detail' movie.id movie.slug %}"><img class="card-img-left" width="100%" src="http://placehold.it/250x400" alt=""></a>
+            </div>
         </div>
         <div class="col-md-8">
             <div class="card-body">
@@ -24,25 +26,30 @@
                         <a href="{% url 'celebs:celeb_detail' director.id director.slug %}">{{ director.full_name }}</a>, 
                     {% endfor %}            
                 </p>
+                <p class="small"><strong>Writers:</strong> 
+                    {% for writer in movie.writers.all %}
+                        <a href="{% url 'celebs:celeb_detail' writer.id writer.slug %}">{{ writer.full_name }}</a>, 
+                    {% endfor %}            
+                </p>                
                 <p class="small"><strong>Stars:</strong> 
                     {% for cast in movie.casts.all %}
                         <a href="{% url 'celebs:celeb_detail' cast.id cast.slug %}">{{ cast.full_name }}</a>,  
                     {% endfor %}            
-                </p>       
-                <p>
-                    <div class=row>
-                        <div class=col-md-4>
-                            <a href="{{ movie.trailer }}" target="_blank" class="btn btn-outline-primary btn-sm {% if not movie.trailer %} disabled {% endif %}"">Watch Trailer</a>
-                        </div>
-                        <div class=col-md-4>
-                            <span class="btn btn-outline-success btn-sm">IMDB {{ movie.imdbmovierating.rating }}</a>
-                        </div>                        
+                </p>  
+                <div class=row>
+                    <div class=col-md-4>
+                        <a href="{{ movie.trailer }}" target="_blank" class="btn btn-outline-primary btn-sm {% if not movie.trailer %} disabled {% endif %}"">Watch Trailer</a>
                     </div>
-                </p> 
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-            </div>              
+                    <div class=col-md-4>
+                        <span class="btn btn-outline-success btn-sm">IMDB {{ movie.imdbmovierating.rating }}</a>
+                    </div>                        
+                </div>
+            </div>             
+        </div>
+        <div class=col-md-12>
+            <div class="card-footer align-bottom">
+                    <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+            </div> 
         </div>
     </div>  
 </div>

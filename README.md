@@ -1,8 +1,9 @@
 # imdb-clone
 An IMDB Clone repository
 
-1. migrate
-2. createsuperuser
-3. loaddata data.json
+1. start an environment with requirements
+2. migrate
+3. createsuperuser
+4. loaddata data.json
 
 there you go..

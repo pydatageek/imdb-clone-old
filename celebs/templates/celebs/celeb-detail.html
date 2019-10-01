@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 <!-- Title -->
-{% block htitle %}{{ object.full_name }} <small>{{ object.nick }}</small>{% endblock %}
+{% block htitle %}{{ object.full_name }} {{ object.nick }}{% endblock %}
 {% block title %}{{ object.full_name }} <small>{{ object.nick }}</small>{% endblock %}   
 
 {% block content %}

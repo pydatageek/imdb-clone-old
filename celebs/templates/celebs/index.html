@@ -4,5 +4,9 @@
 {% block title %}Celebrities{% endblock %}
 
 {% block content %}
-{% include 'celebs/celeb-list.html' %}
+<div class="card card-signin">
+    <div class="card-body">    
+        {% include 'celebs/celeb-list.html' %}
+    </div>
+</div>
 {% endblock %}

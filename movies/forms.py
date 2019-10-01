@@ -19,7 +19,7 @@ class CommentForm(ModelForm):
         model = review_models.MovieComment
         fields = ('text', 'movie', 'user')
         widgets = {
-            'text': forms.Textarea,
+            'text': forms.Textarea(attrs={'rows':5}),
             'movie': forms.HiddenInput,
             'user': forms.HiddenInput,
         }

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+<!-- Title -->
+{% block htitle %}Sign In{% endblock %}
+{% block title %}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-11 col-md-9 col-lg-7 mx-auto">
+    <div class="card card-signin">
+        <div class="card-body">
+        <h1 class="card-title text-center">Sign In</h1>
+        <form method="POST" class="form-signin">
+                {% csrf_token %}
+                {{ form|crispy }}
+            <div class="custom-control custom-checkbox mb-3">
+            <input type="checkbox" class="custom-control-input" id="customCheck1">
+            <label class="custom-control-label" for="customCheck1">Remember password</label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+            <hr class="my-4">
+            <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit" disabled><i class="fab fa-google mr-2"></i> Sign in with Google</button>
+            <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit" disabled><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button>
+            <hr class="my-4">
+            <div>
+                <small class="text-muted">
+                    Need An Account? <a class="ml-2" href="{% url 'users:register' %}">Sign Up Now</a>
+                </small>
+            </div>
+        </form>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock %}

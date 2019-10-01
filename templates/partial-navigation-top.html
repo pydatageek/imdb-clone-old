@@ -27,9 +27,26 @@
             <a class="nav-link disabled" href="#">Contact</a>
           </li>          
         </ul>
-        <form class="form-inline my-2 my-md-0">
+        <form class="form-inline my-2 mr-2 my-md-0">
           <input class="form-control" type="text" placeholder="Search" aria-label="Search">
         </form>
+        <ul class="navbar-nav mr-sm-5">
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+              <a class="nav-link" href="{% url 'users:profile' %}">Profile</a>
+          </li>   
+          <li class="nav-item">
+              <a class="nav-link" href="{% url 'users:logout' %}">Logout</a>
+          </li>     
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:login' %}">Login</a>
+          </li>    
+          <li class="nav-item">
+              <a class="nav-link" href="{% url 'users:register' %}">Register</a>
+          </li>  
+          {% endif %}
+        </ul>        
       </div>
     </div>
 </nav>

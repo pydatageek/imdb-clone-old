@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 <!-- Title -->
-{% block htitle %}{{ object.title }} <small>({{ object.release_year }})</small>{% endblock %}
+{% block htitle %}{{ object.title }} ({{ object.release_year }}){% endblock %}
 {% block title %}{{ object.title }} <small>({{ object.release_year }})</small>{% endblock %}   
 
 {% block content %}
@@ -58,13 +58,14 @@
     {{ object.content|linebreaksbr }}
 
     <div id="cast" class="col-lg-12 small mt-5">
-        <h4>Cast</h4>
+        <h4>Cast & Crew</h4>
         <div class="row">
             {% for mc in object.moviecast.all %}
-            <div class="col-lg-5">
-                <a href="{% url 'celebs:celeb_detail' mc.cast.id mc.cast.slug %}">{{ mc.cast.full_name }}</a></div>
-            <div class="col-lg-2">...</div>
-            <div class="col-lg-5">{{ mc.name }}</div>
+            <div class="col-lg-3">
+                <a href="{% url 'celebs:celeb_detail' mc.cast.id mc.cast.slug %}">{{ mc.cast.full_name }}</a>
+                </div>
+            <div class="col-lg-1">...</div>
+            <div class="col-lg-8"><span class="font-italic text-muted">as</span> {{ mc.name }}</div>
             {% endfor %}
         </div>
     </div>
@@ -72,16 +73,25 @@
     <div class="card my-4">
         <div class="card-body">
             <p class="small">Content source: 
-                <a href="{{ object.source_content }}" target="_blank">{{ object.source_content }}</a></p>
-            <p class="small">Images credit: <br>
-                {{ object.source_image }}</p>
+                {% if object.source_content %}
+                    <a href="{{ object.source_content }}" target="_blank">{{ object.source_content }}</a>
+                {% else %}
+                    ...
+                {% endif %}
+            </p>
+            <p class="small">Images credit: 
+                {% if object.source_image %}
+                    <br>{{ object.source_image }}
+                {% else %}
+                    ...
+                {% endif %}
         </div>
     </div>
 
     <hr>
 
-        <!-- Preview Image -->
-        <img class="img-fluid rounded" src="http://placehold.it/900x300" alt="">
+    <!-- Preview Image -->
+    <img class="img-fluid rounded" src="http://placehold.it/900x300" alt="">
 
     <hr>
     <!-- Comments Form -->

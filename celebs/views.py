@@ -16,6 +16,7 @@ class CelebrityIndexView(ListView):
     """
     queryset = celeb_model.objects.prefetch_related('moviecast__movie', 'directors', 'writers', 'comments')
     template_name = 'celebs/index.html'
+    context_object_name = 'celebs'
     paginate_by = pagination
 
 

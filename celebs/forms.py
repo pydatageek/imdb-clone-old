@@ -19,7 +19,7 @@ class CommentForm(ModelForm):
         model = review_models.CelebComment
         fields = ('text', 'celeb', 'user')
         widgets = {
-            'text': forms.Textarea,
+            'text': forms.Textarea(attrs={'rows':5}),
             'celeb': forms.HiddenInput,
             'user': forms.HiddenInput,
         }
