@@ -28,7 +28,7 @@ class Movie(models.Model):
     release_year = models.CharField(max_length=4)
     slug = models.SlugField(max_length=85)
 
-    genres = models.ManyToManyField(Genre)
+    genres = models.ManyToManyField(Genre, related_name='movies')
 
     duration = models.SmallIntegerField(blank=True, null=True, default=0, help_text='in minutes')
     content = models.TextField(blank=True, null=True)

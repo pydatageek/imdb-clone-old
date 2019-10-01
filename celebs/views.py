@@ -1,3 +1,4 @@
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.shortcuts import render, reverse
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
@@ -5,26 +6,27 @@ from django.views.generic import TemplateView, ListView, DetailView, CreateView
 from movies import models as movie_models
 from . import models, forms
 
+celeb_model = models.Celebrity
+pagination = 10
+
 
 class CelebrityIndexView(ListView):
-    model = models.Celebrity
+    """
+        the queryset line decreased sql queries from 175 to 7
+    """
+    queryset = celeb_model.objects.prefetch_related('moviecast__movie', 'directors', 'writers', 'comments')
     template_name = 'celebs/index.html'
-    context_object_name = 'celebs'
+    paginate_by = pagination
 
 
-class CelebrityDetail(DetailView, CreateView):
-    model = models.Celebrity
+class CelebrityDetail(SuccessMessageMixin, DetailView, CreateView):
+    queryset = celeb_model.objects.prefetch_related('moviecast__movie', 'directors', 'writers', 'comments')
     form_class = forms.CommentForm
     template_name = 'celebs/celeb-detail.html'
-    context_object_name = 'celeb'
+    success_message = 'your comment has been succesfully sent!'
 
     def get_context_data(self, **kwargs):
-        # TODO
-        # print also star's screen name on that movie
         context = super(CelebrityDetail, self).get_context_data(**kwargs)
-        context['movies_as_cast'] = movie_models.Movie.objects.filter(moviecast__cast=self.kwargs['pk'])
-        context['movies_as_director'] = movie_models.Movie.objects.filter(directors=self.kwargs['pk'])
-        context['movies_as_writer'] = movie_models.Movie.objects.filter(writers=self.kwargs['pk'])
         context['comment_form'] = self.form_class
         return context
 

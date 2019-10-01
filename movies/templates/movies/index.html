@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
-{% block htitle %}Latest Movies <small>by release date</small>{% endblock %}
-{% block title %}Latest Movies <small>by release date</small>{% endblock %}
+{% block htitle %}{{ title }} <small>{{ title_suffix }}</small>{% endblock %}
+{% block title %}{{ title }} <small>{{ title_suffix }}</small>{% endblock %}
 
 {% block content %}
 {% include 'movies/movie-list.html' %}

@@ -1,4 +1,4 @@
-{% for movie in movies %}
+{% for movie in object_list %}
 <div class="card mb-4">
     <div class="row no-gutters">    
         <div class="col-md-4 card-img-top">
@@ -11,7 +11,9 @@
                     <small>({{ movie.release_year }})</small>
                 </h4>
                 <p class="small">
-                    <span class="text-muted">{{ movie.duration }} min</span> 
+                    <span class="text-muted">{{ movie.duration }} min</span> | 
+                    <span class="text-muted"><a href="{% url 'movies:movie_detail' movie.pk movie.slug %}#comments">
+                        {{ movie.comments.count }} comments</a></span> 
                     {% for genre in movie.genres.all %}
                         | <a href="{% url 'movies:movies_by_genre' genre.slug %}">{{ genre.name }}</a>
                     {% endfor %}

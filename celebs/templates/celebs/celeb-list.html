@@ -1,4 +1,4 @@
-{% for celeb in celebs %}
+{% for celeb in object_list %}
 <div class="card mb-4">
     <div class="row no-gutters">    
         <div class="col-md-4 card-img-top">
@@ -13,34 +13,35 @@
                 <p class="small">
                     <span class="text-muted">
                         {% if celeb.birthdate %}
-                        {{ celeb.age }} years old
-                        {% endif %}
+                        {{ celeb.age }} years old | 
+                        {% endif %} 
                     </span> 
+                    <span class="text-muted"><a href="{% url 'celebs:celeb_detail' celeb.pk celeb.slug %}#comments">{{ celeb.comments.count }} comments</a></span> 
                 </p>
                 <p class="card-text small">{{ celeb.summary_short }}</p>  
                 <p class="small"><strong>Movies:</strong> 
                     <br>
-                    {% if celeb.moviecast %} 
                         <i>(as cast)</i>
                         {% for i in celeb.moviecast.all %}
                             <a href="{% url 'movies:movie_detail' i.movie.id i.movie.slug %}">{{ i.movie.title }}</a>,  
+                        {% empty %}
+                            no records
                         {% endfor %} 
-                        <br>          
-                    {% endif %}  
-                    {% if celeb.directors %} 
+                        <br>      
                         <i>(as director)</i>
                         {% for i in celeb.directors.all %}
                             <a href="{% url 'movies:movie_detail' i.id i.slug %}">{{ i.title }}</a>,  
+                        {% empty %}
+                            no records
                         {% endfor %} 
                         <br>          
-                    {% endif %} 
-                    {% if celeb.writers %} 
                         <i>(as writer)</i>
                         {% for i in celeb.writers.all %}
                             <a href="{% url 'movies:movie_detail' i.id i.slug %}">{{ i.title }}</a>,  
+                        {% empty %}
+                            no records
                         {% endfor %} 
-                        <br>          
-                    {% endif %}                     
+                        <br>                         
                 </p>                    
                 <p>
                     <div class=row>

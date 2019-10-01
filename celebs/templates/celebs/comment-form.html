@@ -6,7 +6,7 @@
         {% csrf_token %}
         <div class="form-group">
             {{ comment_form|crispy }}
-        <input type="hidden" name="celeb" value="{{ celeb.id }}">
+        <input type="hidden" name="celeb" value="{{ object.id }}">
         <input type="hidden" name="user" value="{{ user.id }}">
         <button type="submit" class="btn btn-primary">Submit</button>
         </div>

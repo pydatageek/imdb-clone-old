@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
 
 <!-- Title -->
-{% block htitle %}{{ movie.title }} <small>({{ movie.release_year }})</small>{% endblock %}
-{% block title %}{{ movie.title }} <small>({{ movie.release_year }})</small>{% endblock %}   
+{% block htitle %}{{ object.title }} <small>({{ object.release_year }})</small>{% endblock %}
+{% block title %}{{ object.title }} <small>({{ object.release_year }})</small>{% endblock %}   
 
 {% block content %}
 <!-- Post Content Column -->
 <div class="col-lg-12"> 
 
     <p class="small">
-            <span class="text-muted">{{ movie.duration }} min </span> | 
-            <span class="text-muted">IMDB {{ movie.imdbmovierating.rating }} </span> 
-            {% for genre in movie.genres.all %}
+            <span class="text-muted">{{ object.duration }} min </span> | 
+            <span class="text-muted">IMDB {{ object.imdbmovierating.rating }} </span> | 
+            <span class="text-muted"><a href="#comments">{{ object.comments.count }} comments</a></span> 
+            {% for genre in object.genres.all %}
                 | <a href="{% url 'movies:movies_by_genre' genre.slug %}">{{ genre.name }}</a>
             {% endfor %}
     </p>    
@@ -23,7 +23,7 @@
                 <img class="card-img-left" width="100%" src="http://placehold.it/250x400" alt="">
             </div>
             <div class="col-md-9">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{ movie.youtube_video }}" 
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{ object.youtube_video }}" 
                     frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
                 </iframe>                    
             </div>
@@ -33,38 +33,38 @@
     <hr>
 
     <!-- Post Content -->
-    <p class="lead">{{ movie.summary_long }}</p>
+    <p class="lead">{{ object.summary_long }}</p>
 
     <div class="card my-4">
         <div class="card-body">
             <p class="small"><strong>Directors:</strong> 
-                {% for director in movie.directors.all %}
+                {% for director in object.directors.all %}
                     <a href="{% url 'celebs:celeb_detail' director.id director.slug %}">{{ director.full_name }}</a>, 
                 {% endfor %}            
             </p>
             <p class="small"><strong>Writers:</strong>
-                {% for writer in movie.writers.all %}
+                {% for writer in object.writers.all %}
                     <a href="{% url 'celebs:celeb_detail' writer.id writer.slug %}">{{ writer.full_name }}</a>, 
                 {% endfor %}
             </p>
             <p class="small"><strong>Stars:</strong> 
-                {% for cast in movie.moviecast.all %}
-                    <a href="{% url 'celebs:celeb_detail' cast.cast.id cast.cast.slug %}">{{ cast.cast.full_name }}</a>,  
+                {% for mc in object.moviecast.all %}
+                    <a href="{% url 'celebs:celeb_detail' mc.cast.id mc.cast.slug %}">{{ mc.cast.full_name }}</a>,  
                 {% endfor %} &nbsp;&nbsp;» <a href="#cast">Full Cast & Crew List</a>           
             </p>             
         </div>
     </div>    
 
-    {{ movie.content|linebreaksbr }}
+    {{ object.content|linebreaksbr }}
 
     <div id="cast" class="col-lg-12 small mt-5">
         <h4>Cast</h4>
         <div class="row">
-            {% for cast in movie.moviecast.all %}
+            {% for mc in object.moviecast.all %}
             <div class="col-lg-5">
-                <a href="{% url 'celebs:celeb_detail' cast.cast.id cast.cast.slug %}">{{ cast.cast }}</a></div>
+                <a href="{% url 'celebs:celeb_detail' mc.cast.id mc.cast.slug %}">{{ mc.cast.full_name }}</a></div>
             <div class="col-lg-2">...</div>
-            <div class="col-lg-5">{{ cast.name }}</div>
+            <div class="col-lg-5">{{ mc.name }}</div>
             {% endfor %}
         </div>
     </div>
@@ -72,9 +72,9 @@
     <div class="card my-4">
         <div class="card-body">
             <p class="small">Content source: 
-                <a href="{{ movie.source_content }}" target="_blank">{{ movie.source_content }}</a></p>
+                <a href="{{ object.source_content }}" target="_blank">{{ object.source_content }}</a></p>
             <p class="small">Images credit: <br>
-                {{ movie.source_image }}</p>
+                {{ object.source_image }}</p>
         </div>
     </div>
 
@@ -85,21 +85,9 @@
 
     <hr>
     <!-- Comments Form -->
+    <p id="comments"></p>
     {% if user.is_authenticated %}
-    <div class="card my-4">
-        <h5 class="card-header">Leave a Comment:</h5>
-        <div class="card-body">
-        <form method="POST" action="">
-            {% csrf_token %}
-            <div class="form-group">
-                {{ comment_form|crispy }}
-            <input type="hidden" name="movie" value="{{ movie.id }}">
-            <input type="hidden" name="user" value="{{ user.id }}">
-            <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </form>
-        </div>
-    </div>
+    {% include 'movies/comment-form.html' %}
     {% else %}
     <div class="card my-4">
         <h5 class="card-header">Leave a Comment:</h5>
@@ -109,7 +97,7 @@
     </div>
     {% endif %}
     
-    {% for comment in movie.comments.all %}
+    {% for comment in object.comments.all %}
     <!-- Single Comment -->
     <div class="media mb-4">
         <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">

@@ -53,7 +53,7 @@ class Celebrity(models.Model):
         if str(self.trailer).find('watch?v=') > -1:
             video_url = str(self.trailer).split('watch?v=')
             return video_url[1]
-        return -1
+        return 'video does not exist'
 
     @property
     def full_name(self):
