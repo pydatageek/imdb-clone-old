@@ -7,3 +7,5 @@ An IMDB Clone repository
 4. loaddata data.json
 
 there you go..
+
+P.S: for debugging purposes, the app has django-debug-toolbar installed.
