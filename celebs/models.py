@@ -1,4 +1,5 @@
 import re
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
@@ -15,6 +16,7 @@ class Duty(models.Model):
 
 class Celebrity(models.Model):
     date_added = models.DateTimeField('Added Date', auto_now_add=True)
+    added_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
 
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)

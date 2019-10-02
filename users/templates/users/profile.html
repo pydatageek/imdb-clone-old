@@ -1,13 +1,23 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 <!-- Title -->
 {% block htitle %}{{ user.get_full_name|default:user.username }} Profile{% endblock %}
 {% block title %}{{ user.get_full_name|default:user.username }} Profile{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-sm-12">
-        Your profile..
+<div class="card card-signin">
+    {% include 'users/profile-menu.html' %}
+    <h3 class="card-title text-center my-4">Edit your profile <small></small></h3>
+    <hr class="mb-1">
+    <div class="card-body">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form|crispy }}
+            <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}

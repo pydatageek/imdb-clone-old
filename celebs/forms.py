@@ -1,11 +1,11 @@
 from django import forms
-from django.forms import ModelForm
+from django.conf import settings
 
 from reviews import models as review_models
 from . import models
 
 
-class CelebrityForm(ModelForm):
+class CelebrityForm(forms.ModelForm):
     class Meta:
         model = models.Celebrity
         fields = '__all__'
@@ -14,7 +14,18 @@ class CelebrityForm(ModelForm):
             'source_image': forms.Textarea,
         }
 
-class CommentForm(ModelForm):
+    # def clean_added_by(self):
+    #     if not self.cleaned_data['added_by']:
+    #         return settings.AUTH_USER_MODEL
+    #     return self.cleaned_data['added_by']
+
+    # def save(self, *args, **kwargs):
+    #     self.added_by = self.request['user']
+    #     form = super(CelebrityForm, self).save(*args, **kwargs)
+    #     form.save()
+        
+
+class CommentForm(forms.ModelForm):
     class Meta:
         model = review_models.CelebComment
         fields = ('text', 'celeb', 'user')

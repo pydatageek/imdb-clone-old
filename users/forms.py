@@ -13,8 +13,11 @@ class UserRegisterForm(UserCreationForm):
         model = models.User
         fields = ('username', 'email', 'password1', 'password2')
 
+
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = models.User
-        fields = '__all__'
-        
+        fields = ('first_name', 'last_name', 'email', 'genres')
+        widgets = {
+            'genres': forms.CheckboxSelectMultiple(),
+        }

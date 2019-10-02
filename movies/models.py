@@ -1,5 +1,6 @@
 import re
 
+from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django.urls import reverse
@@ -23,6 +24,7 @@ class Genre(models.Model):
 
 class Movie(models.Model):
     date_added = models.DateTimeField('Added Date', auto_now_add=True)
+    added_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True) 
 
     title = models.CharField(max_length=75)
     release_year = models.CharField(max_length=4)
@@ -82,7 +84,7 @@ class MovieCast(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE,
                     related_name='moviecast')
     cast = models.ForeignKey(celeb_models.Celebrity, on_delete=models.CASCADE, 
-                    related_name='moviecast', limit_choices_to=Q(duties__name__icontains='Cast'))
+                    related_name='moviecast', limit_choices_to={'duties__name__icontains':'Cast'})
     name = models.CharField(max_length=75, verbose_name='name in movie')
 
     def __str__(self):

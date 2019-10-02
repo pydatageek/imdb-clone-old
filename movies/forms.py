@@ -1,11 +1,11 @@
 from django import forms
-from django.forms import ModelForm
+from django.conf import settings
 
 from reviews import models as review_models
 from . import models 
 
 
-class MovieForm(ModelForm):
+class MovieForm(forms.ModelForm):
     class Meta:
         model = models.Movie
         fields = '__all__'
@@ -14,7 +14,7 @@ class MovieForm(ModelForm):
         }
 
 
-class CommentForm(ModelForm):
+class CommentForm(forms.ModelForm):
     class Meta:
         model = review_models.MovieComment
         fields = ('text', 'movie', 'user')

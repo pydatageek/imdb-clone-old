@@ -1,9 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, UpdateView,TemplateView
 from django.urls import reverse_lazy
 
-from . import forms
+from . import forms, models
 
 
 class RegisterView(SuccessMessageMixin, CreateView):
@@ -15,5 +15,28 @@ class RegisterView(SuccessMessageMixin, CreateView):
         return f'Welcome {cleaned_data["username"]}! Thank you for joining us.'
 
 
-class ProfileView(LoginRequiredMixin, TemplateView):
+class ProfileBaseView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    pass
+
+
+class ProfileView(ProfileBaseView):
+    model = models.User
+    form_class = forms.CustomUserChangeForm
     template_name = 'users/profile.html'
+    success_url = reverse_lazy('users:profile')
+    success_message = 'Your profile has been updated'
+
+    def get_object(self):
+        user = self.request.user
+        return models.User.objects.get(username=user.username)
+
+
+class ProfileMovieView(ProfileBaseView):
+    # TODO
+    # It doesn't work now!
+    # This is the View that should be one page!
+    model = models.UserMovieNote
+
+    def get_object(self):
+        user = self.request.user
+        return models.UserMovieNote.objects.get(user=user)
