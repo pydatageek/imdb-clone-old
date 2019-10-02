@@ -31,13 +31,13 @@ class ProfileView(ProfileBaseView):
         return models.User.objects.get(username=user.username)
 
 
-class ProfileMovieView(ProfileBaseView):
+class ProfileMovieView(TemplateView):
     # TODO
     # It doesn't work now!
     # This is the View that should be one page!
-    model = models.UserMovieNote
+    # model = models.UserMovieNote
     template_name = 'users/user-movies.html'
 
-    def get_object(self):
-        user = self.request.user
-        return models.UserMovieNote.objects.get(user=user)
+    # def get_object(self):
+    #     user = self.request.user
+    #     return models.UserMovieNote.objects.get(user=user)
