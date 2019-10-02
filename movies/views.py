@@ -13,7 +13,7 @@ pagination = 5
 
 class MovieListMixin(ListView):
     queryset = movie_model.objects.prefetch_related(
-        'writers', 'casts', 'directors', 'genres', 'imdbmovierating', 'comments')
+        'writers', 'casts', 'directors', 'genres', 'comments')
     template_name = 'movies/index.html' 
     paginate_by = pagination
 
@@ -29,7 +29,7 @@ class IndexView(MovieListMixin):
 
 
 class TopMovieList(MovieListMixin):
-    ordering = ('-imdbmovierating__rating','title')
+    ordering = ('-imdb_rating','title')
 
     def get_context_data(self, **kwargs):
         context = super(TopMovieList, self).get_context_data(**kwargs)
@@ -40,7 +40,7 @@ class TopMovieList(MovieListMixin):
 
 class MovieDetail(SuccessMessageMixin, DetailView, CreateView):
     queryset = movie_model.objects.prefetch_related(
-        'writers', 'moviecast__cast', 'directors', 'genres', 'imdbmovierating', 'comments__user')    
+        'writers', 'moviecast__cast', 'directors', 'genres', 'comments__user')    
     form_class = forms.CommentForm
     template_name = 'movies/movie-detail.html'
     success_message = 'your comment has been sent succesfully!'
@@ -63,7 +63,7 @@ class GenreMovieList(MovieListMixin):
     def get_queryset(self):
         return movie_model.objects.filter(
             genres__slug__icontains=self.kwargs['slug']).order_by('-release_year', 'title').prefetch_related(
-            'writers', 'casts', 'directors', 'genres', 'imdbmovierating', 'comments')
+            'writers', 'casts', 'directors', 'genres', 'comments')
 
     def get_context_data(self, **kwargs):
         context = super(GenreMovieList, self).get_context_data(**kwargs)

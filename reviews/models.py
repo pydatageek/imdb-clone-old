@@ -56,9 +56,5 @@ class UserMovieRating(MovieRating):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
-class ImdbMovieRating(MovieRating):
-    pass    
-
-
 class UserCelebRating(CelebRating):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

@@ -21,21 +21,21 @@
                 <p class="card-text small">{{ celeb.summary_short }}</p>  
                 <p class="small"><strong>Movies:</strong> 
                     <br>
-                        <i>(as cast)</i>
+                        <i class="mr-1">(as cast)</i>
                         {% for i in celeb.moviecast.all %}
                             <a href="{% url 'movies:movie_detail' i.movie.id i.movie.slug %}">{{ i.movie.title }}</a>,  
                         {% empty %}
                             <span class="text-muted">no records</span>
                         {% endfor %} 
                         <br>      
-                        <i>(as director)</i>
+                        <i class="mr-1">(as director)</i>
                         {% for i in celeb.directors.all %}
                             <a href="{% url 'movies:movie_detail' i.id i.slug %}">{{ i.title }}</a>,  
                         {% empty %}
                             <span class="text-muted">no records</span>
                         {% endfor %} 
                         <br>          
-                        <i>(as writer)</i>
+                        <i class="mr-1">(as writer)</i>
                         {% for i in celeb.writers.all %}
                             <a href="{% url 'movies:movie_detail' i.id i.slug %}">{{ i.title }}</a>,  
                         {% empty %}

@@ -13,9 +13,7 @@
                     <small>({{ movie.release_year }})</small>
                 </h4>
                 <p class="small">
-                    <span class="text-muted">{{ movie.duration }} min</span> | 
-                    <span class="text-muted"><a href="{% url 'movies:movie_detail' movie.pk movie.slug %}#comments">
-                        {{ movie.comments.count }} comments</a></span> 
+                    <span class="text-muted">{{ movie.duration }} min</span>  
                     {% for genre in movie.genres.all %}
                         | <a href="{% url 'movies:movies_by_genre' genre.slug %}">{{ genre.name }}</a>
                     {% endfor %}
@@ -41,14 +39,18 @@
                         <a href="{{ movie.trailer }}" target="_blank" class="btn btn-outline-primary btn-sm {% if not movie.trailer %} disabled {% endif %}"">Watch Trailer</a>
                     </div>
                     <div class=col-md-4>
-                        <span class="btn btn-outline-success btn-sm">IMDB {{ movie.imdbmovierating.rating }}</a>
+                        <a href="{% url 'movies:top_movies' %}" title="goto: Top movies" class="btn btn-outline-success btn-sm">
+                            IMDB {{ movie.imdb_rating }}</a>
                     </div>                        
                 </div>
             </div>             
         </div>
-        <div class=col-md-12>
-            <div class="card-footer align-bottom">
-                    <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+        <div class="col-md-12 text-right">
+            <div class="card-footer text-muted">
+                    <small class="mr-3"><i>from our users: </i></small>
+                    <small class="mr-3">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                    <small><a href="{% url 'movies:movie_detail' movie.pk movie.slug %}#comments">
+                        {{ movie.comments.count }} comments</a></small> 
             </div> 
         </div>
     </div>  

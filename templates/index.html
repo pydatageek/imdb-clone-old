@@ -3,7 +3,7 @@
 {% block content %}
 <!-- Blog Post -->
 <div class="card card-signin">
-    <h2 class="card-title text-center my-4">Latest Movies <small>by release date</small></h2>
+    <h2 class="card-title text-center my-4">{{ movie_title }} <small>{{ movie_title_small }}</small></h2>
     <div class="card-body">
         <div class="row m-2">        
             <a href="{% url 'movies:home' %}" class="btn btn-outline-info btn-sm mr-3">All Movies</a>  
@@ -15,7 +15,7 @@
 </div>
 
 <div class="card card-signin">
-    <h2 class="card-title text-center my-4">Celebrities</h2>
+    <h2 class="card-title text-center my-4">{{ celeb_title }}</h2>
         <div class="card-body">
             <div class="row m-2">        
                 <a href="{% url 'celebs:home' %}" class="btn btn-outline-info btn-sm mr-3">All Celebrities</a> 

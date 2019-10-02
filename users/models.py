@@ -7,7 +7,7 @@ class User(AbstractUser):
     genres = models.ManyToManyField('movies.Genre', blank=True)
 
     def __str__(self):
-        return f'{self.username} ({self.email})'
+        return self.get_full_name() or self.username
 
 
 class UserMovieNote(models.Model):

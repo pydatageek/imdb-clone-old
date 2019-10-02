@@ -8,14 +8,6 @@ from . import models, forms
 class GenreAdmin(admin.ModelAdmin):
     prepopulated_fields = { 'slug': ('name',) }
     search_fields = ('name',)
-    
-
-class MovieIbdbRatingInline(admin.TabularInline):
-    model = review_models.ImdbMovieRating
-
-    extra = 0
-    max_num = 1
-    min_num = 1
 
 
 class MovieCastInline(admin.TabularInline):
@@ -26,9 +18,10 @@ class MovieCastInline(admin.TabularInline):
 @admin.register(models.Movie)
 class MovieAdmin(admin.ModelAdmin):
     form = forms.MovieForm
-    inlines = [MovieIbdbRatingInline, MovieCastInline,]
+    inlines = [MovieCastInline,]
     
     list_filter = ('genres',)
+    list_display = ('title', 'release_year', 'imdb_rating')
 
     prepopulated_fields = { 'slug': ('title', 'release_year') }
     readonly_fields = ('added_by',)

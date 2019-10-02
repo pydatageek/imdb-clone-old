@@ -10,7 +10,7 @@
 
     <p class="small">
             <span class="text-muted">{{ object.duration }} min </span> | 
-            <span class="text-muted">IMDB {{ object.imdbmovierating.rating }} </span> | 
+            <span class="text-muted">IMDB {{ object.imdb_rating }} </span> | 
             <span class="text-muted"><a href="#comments">{{ object.comments.count }} comments</a></span> 
             {% for genre in object.genres.all %}
                 | <a href="{% url 'movies:movies_by_genre' genre.slug %}">{{ genre.name }}</a>

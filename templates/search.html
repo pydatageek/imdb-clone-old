@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block htitle %}Results for {{ q }}{% endblock %}
+{% block title %}Results for {{ q }}{% endblock %}
+
+{% block content %}
+<div class="card card-signin p-2">
+    <h2 class="card-title text-left">Movies <small></small></h2>
+    <div class="card-body">
+        <div class="row m-2">        
+            <a href="{% url 'movies:home' %}" class="btn btn-outline-info btn-sm mr-3">All Movies</a>  
+            <a href="{% url 'movies:top_movies' %}" class="btn btn-outline-info btn-sm mr-3">Top Movies</a>
+            <a href="{% url 'movies:genre_home' %}" class="btn btn-outline-info btn-sm mr-3">Movies by Genres</a>
+        </div>    
+        {% for movie in object_list %}
+            <div>
+                <a href="{% url 'movies:movie_detail' movie.pk movie.slug %}">{{ movie.title }}</a>
+            </div>
+        {% empty %}
+            <div>
+                no match found
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="card card-signin p-2">
+    <h2 class="card-title text-left">Celebrities <small></small></h2>
+    <div class="card-body">
+        <div class="row m-2">        
+            <a href="{% url 'celebs:home' %}" class="btn btn-outline-info btn-sm mr-3">All Celebrities</a> 
+        </div>    
+        {% for celeb in celebs %}
+            <div>
+                <a href="{% url 'celebs:celeb_detail' celeb.pk celeb.slug %}">{{ celeb.first_name }} {{ celeb.last_name }}</a>
+            </div>
+        {% empty %}
+            <div>
+                no match found
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
