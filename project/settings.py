@@ -25,7 +25,7 @@ SECRET_KEY = 'a&=(9hji^u)3=^tc3ui6(uflxvsl3fs2jxrbs@wm@=l*veo88*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://imdb-clone-django.herokuapp.com/']
+ALLOWED_HOSTS = ['localhost', '.localhost', 'https://imdb-clone-django.herokuapp.com/']
 
 
 # Application definition

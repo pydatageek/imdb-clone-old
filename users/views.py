@@ -36,6 +36,7 @@ class ProfileMovieView(ProfileBaseView):
     # It doesn't work now!
     # This is the View that should be one page!
     model = models.UserMovieNote
+    template_name = 'users/user-movies.html'
 
     def get_object(self):
         user = self.request.user
