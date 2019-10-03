@@ -50,7 +50,7 @@
         <h4>Filmography</h4>
         <h5>As cast</h5>
         <div class="row mb-3">
-            {% for mc in object.moviecast.all %}
+            {% for mc in object.movies_as_cast.all %}
                 <div class="col-lg-3">
                     <a href="{% url 'movies:movie_detail' mc.movie.pk mc.movie.slug %}">{{ mc.movie.title }}</a>
                     ({{ mc.movie.release_year }})
@@ -63,8 +63,8 @@
         </div>
         <h5>As director</h5>
         <div class="row mb-3">
-            {% for movie in object.directors.all %}
-            <div class="col-lg-5">
+            {% for movie in object.movies_as_director.all %}
+            <div class="col-lg-12">
                 <a href="{% url 'movies:movie_detail' movie.pk movie.slug %}">{{ movie.title }}</a> 
                 ({{ movie.release_year }})
             </div>
@@ -74,8 +74,8 @@
         </div> 
         <h5>As writer</h5>
         <div class="row mb-3">
-            {% for movie in object.writers.all %}
-                <div class="col-lg-5">
+            {% for movie in object.movies_as_writer.all %}
+                <div class="col-lg-12">
                     <a href="{% url 'movies:movie_detail' movie.pk movie.slug %}">{{ movie.title }}</a> 
                     ({{ movie.release_year }})
                 </div>

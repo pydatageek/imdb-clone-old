@@ -10,6 +10,10 @@ class GenreAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
+class MovieCrewInline(admin.TabularInline):
+    model = models.MovieCrew
+    autocomplete_fields = ('crew',)
+
 class MovieCastInline(admin.TabularInline):
     model = models.MovieCast
     autocomplete_fields = ('cast',)
@@ -18,7 +22,7 @@ class MovieCastInline(admin.TabularInline):
 @admin.register(models.Movie)
 class MovieAdmin(admin.ModelAdmin):
     form = forms.MovieForm
-    inlines = [MovieCastInline,]
+    inlines = [MovieCrewInline, MovieCastInline,]
     
     list_filter = ('genres',)
     list_display = ('title', 'release_year', 'imdb_rating')

@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
-    genres = models.ManyToManyField('movies.Genre', blank=True)
+    genres = models.ManyToManyField('movies.Genre', blank=True, verbose_name='Favorite genres')
 
     def __str__(self):
         return self.get_full_name() or self.username

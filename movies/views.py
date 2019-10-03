@@ -10,10 +10,9 @@ movie_model = models.Movie
 genre_model = models.Genre
 pagination = 5
 
-
+# Views with BAD Query Scales
 class MovieListMixin(ListView):
-    queryset = movie_model.objects.prefetch_related(
-        'writers', 'casts', 'directors', 'genres', 'comments')
+    queryset = movie_model.objects.prefetch_related('movie_crews', 'genres', 'comments')  #  'crews__moviecrew_set', 
     template_name = 'movies/index.html' 
     paginate_by = pagination
 
@@ -59,15 +58,71 @@ class GenreIndexView(ListView):
     queryset = genre_model.objects.prefetch_related('movies')
 
 
-class GenreMovieList(MovieListMixin):   
+class GenreMovieList(ListView):   
+    template_name = 'movies/index.html' 
+    paginate_by = pagination
+
+    def get_queryset(self):
+        return movie_model.objects.filter(
+            genres__slug__icontains=self.kwargs['slug']).order_by('-release_year', 'title').prefetch_related(
+            'movie_crews', 'genres', 'comments')
+
+    def get_context_data(self, **kwargs):
+        context = super(GenreMovieList, self).get_context_data(**kwargs)
+        genre = str(self.kwargs['slug']).title()
+        context['title'] = f'Latest {genre} movies'
+        context['title_suffix'] = 'by release date'
+        return context
+
+
+
+
+# Views with GOOD Query Scales
+# short for Good Query Scales is (GQ)
+class MovieListMixin2(ListView):
+    queryset = movie_model.objects.prefetch_related(
+        'writers', 'casts', 'directors', 'genres', 'comments')
+    template_name = 'movies/index2.html' 
+    paginate_by = pagination
+
+
+class IndexView2(MovieListMixin2):
+    ordering = ('-release_year', 'title')
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView2, self).get_context_data(**kwargs)
+        context['title'] = '(GQ) Latest movies'
+        context['title_suffix'] = 'by release date'
+        return context
+
+
+class TopMovieList2(MovieListMixin2):
+    ordering = ('-imdb_rating','title')
+
+    def get_context_data(self, **kwargs):
+        context = super(TopMovieList2, self).get_context_data(**kwargs)
+        context['title'] = '(GQ) Top movies'
+        context['title_suffix'] = 'on IMDB'
+        return context
+
+
+class GenreIndexView2(ListView):
+    template_name = 'movies/index-genre2.html'
+    queryset = genre_model.objects.prefetch_related('movies')
+
+
+class GenreMovieList2(ListView):   
+    template_name = 'movies/index2.html' 
+    paginate_by = pagination
+
     def get_queryset(self):
         return movie_model.objects.filter(
             genres__slug__icontains=self.kwargs['slug']).order_by('-release_year', 'title').prefetch_related(
             'writers', 'casts', 'directors', 'genres', 'comments')
 
     def get_context_data(self, **kwargs):
-        context = super(GenreMovieList, self).get_context_data(**kwargs)
+        context = super(GenreMovieList2, self).get_context_data(**kwargs)
         genre = str(self.kwargs['slug']).title()
-        context['title'] = f'Latest {genre} movies'
+        context['title'] = f'(GQ) Latest {genre} movies'
         context['title_suffix'] = 'by release date'
         return context

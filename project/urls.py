@@ -22,6 +22,7 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.IndexView.as_view(), name='index'),
+    path('2/', views.IndexView2.as_view(), name='index2'),
     path('search/', views.SearchResultsView.as_view(), name='search'),
     path('users/', include('users.urls')),
     path('movies/', include('movies.urls')),

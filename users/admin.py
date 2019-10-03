@@ -8,7 +8,7 @@ from . import models, forms
 class CustomUserAdmin(UserAdmin):
     add_form = forms.UserCreationForm
 
-    filter_horizontal = ('genres',)
+    filter_horizontal = ('genres', 'groups', 'user_permissions')
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name', 'email')}),

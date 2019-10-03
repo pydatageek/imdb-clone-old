@@ -20,20 +20,20 @@
                 </p>
                 <p class="card-text small">{{ movie.summary_short }}</p>
                 <p class="small"><strong>Directors:</strong> 
-                    {% for director in movie.movie_crews.get_directors %}
-                        <a href="{% url 'celebs:celeb_detail' director.crew.id director.crew.slug %}">{{ director.crew.full_name }}</a>, 
+                    {% for director in movie.directors.all %}
+                        <a href="{% url 'celebs:celeb_detail' director.id director.slug %}">{{ director.full_name }}</a>, 
                     {% endfor %}            
                 </p>
                 <p class="small"><strong>Writers:</strong> 
-                    {% for writer in movie.movie_crews.get_writers %}
-                        <a href="{% url 'celebs:celeb_detail' writer.crew.id writer.crew.slug %}">{{ writer.crew.full_name }}</a>, 
+                    {% for writer in movie.writers.all %}
+                        <a href="{% url 'celebs:celeb_detail' writer.id writer.slug %}">{{ writer.full_name }}</a>, 
                     {% endfor %}            
                 </p>                
                 <p class="small"><strong>Stars:</strong> 
-                    {% for cast in movie.movie_crews.get_casts %}
-                        <a href="{% url 'celebs:celeb_detail' cast.crew.id cast.crew.slug %}">{{ cast.crew.full_name }}</a>,  
+                    {% for cast in movie.casts.all %}
+                        <a href="{% url 'celebs:celeb_detail' cast.id cast.slug %}">{{ cast.full_name }}</a>,  
                     {% endfor %}            
-                </p>            
+                </p>  
                 <div class=row>
                     <div class=col-md-4>
                         <a href="{{ movie.trailer }}" target="_blank" class="btn btn-outline-primary btn-sm {% if not movie.trailer %} disabled {% endif %}"">Watch Trailer</a>

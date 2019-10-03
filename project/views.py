@@ -11,10 +11,30 @@ class IndexView(ListView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         context['celebs'] = celeb_models.Celebrity.objects.prefetch_related(
-            'moviecast__movie', 'directors', 'writers', 'comments'
+            'movies_as_cast', 'movies_as_director', 'movies_as_writer', 'comments'
         )[:3]
         context['celeb_title'] = 'Celebrities'
         context['movie_title'] = 'Latest Movies'
+        context['movie_title_small'] = 'by release date'
+        return context
+
+    def get_queryset(self):
+        return movie_models.Movie.objects.prefetch_related(
+            'movie_crews', 'genres', 'comments').order_by(
+            '-release_year', 'title')[:3]
+
+
+# Good Query Results
+class IndexView2(ListView):
+    template_name = 'index2.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView2, self).get_context_data(**kwargs)
+        context['celebs'] = celeb_models.Celebrity.objects.prefetch_related(
+            'movies_as_cast', 'movies_as_director', 'movies_as_writer', 'comments'
+        )[:3]
+        context['celeb_title'] = 'Celebrities'
+        context['movie_title'] = '(GQ) Latest Movies'
         context['movie_title_small'] = 'by release date'
         return context
 
