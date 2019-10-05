@@ -1,4 +1,5 @@
 <div class="row m-2">        
     <a href="{% url 'users:profile' %}" class="btn btn-outline-info btn-sm mr-3">Edit Profile</a>  
-    <a href="{% url 'users:profile_movies' %}" class="btn btn-outline-info btn-sm mr-3">Your movies</a>
+    <a href="{% url 'users:user_movies' %}" class="btn btn-outline-info btn-sm mr-3">Your movies (with fromset)</a>
+    <a href="{% url 'users:user_movies2' %}" class="btn btn-outline-info btn-sm mr-3">Your movies (with form loop)</a>
 </div>    

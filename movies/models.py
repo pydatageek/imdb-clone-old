@@ -40,21 +40,31 @@ class Movie(models.Model):
     trailer = models.URLField(blank=True, null=True, default='', 
                     help_text='trailer url (for now, ONLY youtube videos)')
     
-    # one 'crews' field takes the place of three fields ('directors', 'writers', 'casts')
-    # but it shows bad query performance.
     crews = models.ManyToManyField(celeb_models.Celebrity, through='MovieCrew', related_name='movies')
-
-    directors = models.ManyToManyField(celeb_models.Celebrity, related_name='movies_as_director', 
-                    limit_choices_to=Q(duties__name__icontains='Director'))    
-    writers = models.ManyToManyField(to=celeb_models.Celebrity, related_name='movies_as_writer', 
-                    limit_choices_to=Q(duties__name__icontains='Writer'))
-    casts = models.ManyToManyField(to=celeb_models.Celebrity, through='MovieCast')
 
     source_content = models.URLField(blank=True, null=True, default='')
     source_image = models.CharField(max_length=250, blank=True, null=True)
 
     class Meta:
         unique_together = ('title', 'release_year')
+
+    def _get_crew(self, duty_name):
+        if hasattr(self, '_prefetched_objects_cache') and 'movie_crews' in self._prefetched_objects_cache:
+            return [c for c in self._prefetched_objects_cache['movie_crews'] if c.duty.name == duty_name]
+        else:
+            return self.movie_crews.filter(duty__name=duty_name)
+
+    @property
+    def directors(self):
+        return self._get_crew('Director')
+    
+    @property
+    def writers(self):
+        return self._get_crew('Writer')
+
+    @property
+    def casts(self):
+        return self._get_crew('Cast')
 
     @property
     def summary_long(self):
@@ -87,52 +97,14 @@ class Movie(models.Model):
         return f'{self.title} ({self.release_year})'
 
 
-class MovieCast(models.Model):
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE,
-                    related_name='moviecast')
-    cast = models.ForeignKey(celeb_models.Celebrity, on_delete=models.CASCADE, 
-                    related_name='movies_as_cast', limit_choices_to={'duties__name__icontains':'Cast'})
-    name = models.CharField(max_length=75, verbose_name='name in movie')
-
-    def __str__(self):
-        return self.cast.full_name
-
-
-
-# New model MovieCrew and its manager
-# the related field on Movie is crews
-# it creates more queries on pages than
-# other related fields (which has the same job): 
-# directors, writers and casts
-# WHY?
-# crews vs. directors, writers, casts
-class MovieCrewManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset()
-    
-    def get_directors(self):
-        qs = self.get_queryset()
-        return qs.filter(duty__name__icontains='Director').select_related('crew')
-
-    def get_writers(self):
-        qs = self.get_queryset()
-        return qs.filter(duty__name__icontains='Writer').select_related('crew')
-
-    def get_casts(self):
-        qs = self.get_queryset()
-        return qs.filter(duty__name__icontains='Cast').select_related('crew')
-
-
 class MovieCrew(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='movie_crews')
     duty = models.ForeignKey(celeb_models.Duty, default=1, on_delete=models.CASCADE)
-    crew = models.ForeignKey(celeb_models.Celebrity, on_delete=models.CASCADE)
+    crew = models.ForeignKey(celeb_models.Celebrity, on_delete=models.CASCADE, related_name="movie_crews")
     role = models.CharField(max_length=75, default='', blank=True,  
                     help_text='e.g. short story, scrrenplay for writer, voice for cast')
     screen_name = models.CharField(max_length=75, default='', blank=True,
                     help_text="crew's name on movie")
-
-    objects = MovieCrewManager()
 
     def clean(self, *args, **kwargs):
         if not self.duty in self.crew.duties.all():

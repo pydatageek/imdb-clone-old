@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+<!-- Title -->
+{% block htitle %}Your movies from favorite genres{% endblock %}
+{% block title %}Your movies from favorite genres{% endblock %}
+
+{% block content %}
+<div class="card card-signin">
+  {% include 'users/profile-menu.html' %}
+  <h3 class="card-title text-center my-4">Take notes for your movies <small></small></h3>
+  <hr class="mb-1">
+  <div class="card-body">
+    <form method="POST">
+      {% csrf_token %}
+      {% for genre in user.genres.all %}
+        <h2 for="genre" name="genre" value="{{ genre.id }}">{{ genre.name }}</h2>
+        {% for movie in genre.movies.all %}
+          <div class="ml-5">
+            <h4>{{ movie.title }}</h4>
+            {{ form|crispy }}  
+          </div>      
+          <input type="hidden" name="user" value="{{ user.id }}">
+          <input type="hidden" name="movie" value="{{ movie.id }}">
+        {% empty %}
+        <p class="alert alert-danger">The genre you have selected on your profile doesn't have any movies!</p>
+        {% endfor %}  
+      {% empty %}
+      <p class="alert alert-danger">You should select genres with movies from your profile to edit here!</p>
+      {% endfor %}
+      <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="Submit">  
+    </form>
+  </div>
+</div>
+{% endblock %}

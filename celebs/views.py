@@ -14,14 +14,14 @@ class CelebrityIndexView(ListView):
     """
         the queryset line decreased sql queries from 175 to 7
     """
-    queryset = celeb_model.objects.prefetch_related('movies_as_cast', 'movies_as_director', 'movies_as_writer', 'comments')
+    queryset = celeb_model.objects.prefetch_related('movie_crews__duty', 'movie_crews__movie', 'comments')
     template_name = 'celebs/index.html'
     context_object_name = 'celebs'
     paginate_by = pagination
 
 
 class CelebrityDetail(SuccessMessageMixin, DetailView, CreateView):
-    queryset = celeb_model.objects.prefetch_related('movies_as_cast', 'movies_as_director', 'movies_as_writer', 'comments')
+    queryset = celeb_model.objects.prefetch_related('movie_crews__duty', 'movie_crews__movie', 'comments')
     form_class = forms.CommentForm
     template_name = 'celebs/celeb-detail.html'
     success_message = 'your comment has been succesfully sent!'

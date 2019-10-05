@@ -22,22 +22,22 @@
                 <p class="small"><strong>Movies:</strong> 
                     <br>
                         <i class="mr-1">(as cast)</i>
-                        {% for i in celeb.movies_as_cast.all %}
-                            <a href="{% url 'movies:movie_detail' i.movie.id i.movie.slug %}">{{ i.movie.title }}</a>,  
+                        {% for i in celeb.as_cast %}
+                        <a href="{% url 'movies:movie_detail' i.movie.id i.movie.slug %}">{{ i.movie.title }}</a>,  
                         {% empty %}
-                            <span class="text-muted">no records</span>
+                        <span class="text-muted">no records</span>
                         {% endfor %} 
                         <br>      
                         <i class="mr-1">(as director)</i>
-                        {% for i in celeb.movies_as_director.all %}
-                            <a href="{% url 'movies:movie_detail' i.id i.slug %}">{{ i.title }}</a>,  
+                        {% for i in celeb.as_director %}
+                            <a href="{% url 'movies:movie_detail' i.movie.id i.movie.slug %}">{{ i.movie.title }}</a>,  
                         {% empty %}
                             <span class="text-muted">no records</span>
                         {% endfor %} 
                         <br>          
                         <i class="mr-1">(as writer)</i>
-                        {% for i in celeb.movies_as_writer.all %}
-                            <a href="{% url 'movies:movie_detail' i.id i.slug %}">{{ i.title }}</a>,  
+                        {% for i in celeb.as_writer %}
+                            <a href="{% url 'movies:movie_detail' i.movie.id i.movie.slug %}">{{ i.movie.title }}</a>,  
                         {% empty %}
                             <span class="text-muted">no records</span>
                         {% endfor %} 

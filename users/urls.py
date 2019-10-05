@@ -10,5 +10,6 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('register/', views.RegisterView.as_view(), name='register'),
     path('profile/', views.ProfileView.as_view(), name='profile'),
-    path('profile/movies/', views.ProfileMovieView.as_view(), name='profile_movies'),
+    path('profile/movies/', views.UserMovieView.as_view(), name='user_movies'),
+    path('profile/movies2/', views.UserMovieViewWithLoop.as_view(), name='user_movies2'),
 ]

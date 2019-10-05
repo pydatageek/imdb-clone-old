@@ -18,3 +18,7 @@ class CustomUserAdmin(UserAdmin):
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
         ('Favorite genres', {'fields': ('genres',)}),
     )
+
+@admin.register(models.UserMovie)
+class UserMovieAdmin(admin.ModelAdmin):
+    add_form = forms.UserMovieFormWithLoop

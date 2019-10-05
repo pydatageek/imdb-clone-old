@@ -14,15 +14,10 @@ class MovieCrewInline(admin.TabularInline):
     model = models.MovieCrew
     autocomplete_fields = ('crew',)
 
-class MovieCastInline(admin.TabularInline):
-    model = models.MovieCast
-    autocomplete_fields = ('cast',)
-
-
 @admin.register(models.Movie)
 class MovieAdmin(admin.ModelAdmin):
     form = forms.MovieForm
-    inlines = [MovieCrewInline, MovieCastInline,]
+    inlines = [MovieCrewInline,]
     
     list_filter = ('genres',)
     list_display = ('title', 'release_year', 'imdb_rating')
@@ -30,7 +25,6 @@ class MovieAdmin(admin.ModelAdmin):
     prepopulated_fields = { 'slug': ('title', 'release_year') }
     readonly_fields = ('added_by',)
     autocomplete_fields = ('genres',)
-    filter_horizontal = ('writers', 'directors')
 
     def save_model(self, request, obj, form, change):
         obj.added_by = request.user

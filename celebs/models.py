@@ -38,6 +38,24 @@ class Celebrity(models.Model):
         verbose_name_plural = 'Celebrities'
         ordering = ('last_name', 'first_name')
 
+    def _get_movie(self, duty_name):
+        if hasattr(self, '_prefetched_objects_cache') and 'movie_crews' in self._prefetched_objects_cache:
+            return [c for c in self._prefetched_objects_cache['movie_crews'] if c.duty.name == duty_name]
+        else:
+            return self.movie_crews.filter(duty__name=duty_name)
+
+    @property
+    def as_director(self):
+        return self._get_movie('Director')
+    
+    @property
+    def as_writer(self):
+        return self._get_movie('Writer')
+
+    @property
+    def as_cast(self):
+        return self._get_movie('Cast')        
+
     @property
     def summary_long(self):
         sentences = re.split("[.!?]+", str(self.bio))

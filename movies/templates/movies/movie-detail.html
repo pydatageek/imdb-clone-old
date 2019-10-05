@@ -38,18 +38,18 @@
     <div class="card my-4">
         <div class="card-body">
             <p class="small"><strong>Directors:</strong> 
-                {% for director in object.directors.all %}
-                    <a href="{% url 'celebs:celeb_detail' director.id director.slug %}">{{ director.full_name }}</a>, 
+                {% for director in object.directors %}
+                    <a href="{% url 'celebs:celeb_detail' director.crew.id director.crew.slug %}">{{ director.crew.full_name }}</a>, 
                 {% endfor %}            
             </p>
             <p class="small"><strong>Writers:</strong>
-                {% for writer in object.writers.all %}
-                    <a href="{% url 'celebs:celeb_detail' writer.id writer.slug %}">{{ writer.full_name }}</a>, 
+                {% for writer in object.writers %}
+                    <a href="{% url 'celebs:celeb_detail' writer.crew.id writer.crew.slug %}">{{ writer.crew.full_name }}</a>, 
                 {% endfor %}
             </p>
             <p class="small"><strong>Stars:</strong> 
-                {% for mc in object.moviecast.all %}
-                    <a href="{% url 'celebs:celeb_detail' mc.cast.id mc.cast.slug %}">{{ mc.cast.full_name }}</a>,  
+                {% for cast in object.casts %}
+                    <a href="{% url 'celebs:celeb_detail' cast.crew.id cast.crew.slug %}">{{ cast.crew.full_name }}</a>,  
                 {% endfor %} &nbsp;&nbsp;» <a href="#cast">Full Cast & Crew List</a>           
             </p>             
         </div>
